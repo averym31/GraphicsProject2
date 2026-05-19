@@ -6,7 +6,7 @@ public class Card {
     public Card(String suit, String value){
         this.suit = suit;
         this.value = value;
-        filename = "card_" + suit + "_" + value;
+        filename = "card_" + suit + "_" + value + ".png";
     }
 
     public String getSuit() {

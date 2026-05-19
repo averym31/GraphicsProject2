@@ -1,9 +1,10 @@
 import java.util.ArrayList;
 
 public class Deck {
-    private ArrayList<Card> cardDeck;
+    public ArrayList<Card> cardDeck;
 
     public Deck(){
+        cardDeck = new ArrayList<Card>();
         String[] suitList = {"clubs","diamonds","hearts","spades"};
         String[] valueList = {"A", "02", "03", "04", "05", "06", "07", "08", "09", "10", "J", "Q", "K"};
         for (String string : suitList) {
