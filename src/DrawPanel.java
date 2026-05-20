@@ -30,11 +30,11 @@ class DrawPanel extends JPanel implements MouseListener {
                 g.drawImage(screen[r][c].getImage(), x + (100*c), y + (100*r), null);
             }
         }
-        g.drawString("There are " + deck.getCardDeck().size() + " cards left in the deck!", 100, 100);
+        g.drawString("There are " + deck.getCardDeck().size() + " cards left in the deck!", 100, 300);
     }
 
     public void mousePressed(MouseEvent e) {
-        if (!deck.getCardDeck().isEmpty()){
+        if (deck.getCardDeck().size() >= 9){
             for (int r = 0; r < screen.length; r++){
                 for (int c = 0; c < screen[0].length; c++){
                     currentCard = deck.getRandomCard();
