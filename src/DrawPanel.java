@@ -5,8 +5,12 @@ import java.awt.Graphics;
 
 class DrawPanel extends JPanel implements MouseListener {
 
-    public DrawPanel() {
+    private Deck deck;
+    private Card currentCard;
 
+    public DrawPanel() {
+        deck = new Deck();
+        currentCard = deck.getRandomCard();
         this.addMouseListener(this);
     }
 
@@ -14,6 +18,7 @@ class DrawPanel extends JPanel implements MouseListener {
         super.paintComponent(g);
         int x = 50;
         int y = 10;
+        g.drawImage(currentCard.getImage(), x, y, null);
     }
 
     public void mousePressed(MouseEvent e) {

@@ -18,7 +18,11 @@ public class Deck {
     public Card getRandomCard(){
         int randomInt = (int) (Math.random() * cardDeck.size());
         Card randomCard = cardDeck.get(randomInt);
-        cardDeck.remove(cardDeck.get(randomInt));
+        cardDeck.remove(randomInt);
         return randomCard;
+    }
+
+    public ArrayList<Card> getCardDeck(){
+        return cardDeck;
     }
 }
