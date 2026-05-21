@@ -27,23 +27,28 @@ class DrawPanel extends JPanel implements MouseListener {
         int y = 10;
         for (int r = 0; r < screen.length; r++){
             for (int c = 0; c < screen[0].length; c++){
-                Rectangle hitbox = new Rectangle(62 + (100*c),12 + (100*r),40,60);
-                screen[r][c].setHitbox(hitbox);
                 g.drawImage(screen[r][c].getImage(), x + (100*c), y + (100*r), null);
+                Rectangle h = new Rectangle(50 + (100*c),10 + (100*r), screen[r][c].getImage().getWidth(), screen[r][c].getImage().getHeight());
+                screen[r][c].setHitbox(h);
             }
         }
         g.drawString("There are " + deck.getCardDeck().size() + " cards left in the deck!", 100, 300);
     }
 
     public void mousePressed(MouseEvent e) {
-        if (deck.getCardDeck().size() >= 9){
-            for (int r = 0; r < screen.length; r++){
-                for (int c = 0; c < screen[0].length; c++){
-                    currentCard = deck.getRandomCard();
-                    screen[r][c] = currentCard;
+
+        Point p = e.getPoint();
+        int button = e.getButton();
+        // 1 = lclick, 3 = rclick
+            for (int r = 0; r < screen.length; r++) {
+                for (int c = 0; c < screen[0].length; c++) {
+                    if (screen[r][c].getHitbox().contains(p)) {
+                        if (!deck.getCardDeck().isEmpty()){
+                            screen[r][c] = deck.getRandomCard();
+                        }
+                    }
                 }
             }
-        }
     }
 
     public void mouseReleased(MouseEvent e) { }
