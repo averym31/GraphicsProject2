@@ -9,6 +9,7 @@ class DrawPanel extends JPanel implements MouseListener {
     private Deck deck;
     private Card currentCard;
     Card[][] screen = new Card[3][3];
+    private boolean rclick;
 
     public DrawPanel() {
         deck = new Deck();
@@ -30,6 +31,9 @@ class DrawPanel extends JPanel implements MouseListener {
                 g.drawImage(screen[r][c].getImage(), x + (100*c), y + (100*r), null);
                 Rectangle h = new Rectangle(50 + (100*c),10 + (100*r), screen[r][c].getImage().getWidth(), screen[r][c].getImage().getHeight());
                 screen[r][c].setHitbox(h);
+                if (rclick) {
+                    g.drawRect(50 + (100*c),10 + (100*r), screen[r][c].getImage().getWidth(), screen[r][c].getImage().getHeight());
+                }
             }
         }
         g.drawString("There are " + deck.getCardDeck().size() + " cards left in the deck!", 100, 300);
@@ -44,7 +48,12 @@ class DrawPanel extends JPanel implements MouseListener {
                 for (int c = 0; c < screen[0].length; c++) {
                     if (screen[r][c].getHitbox().contains(p)) {
                         if (!deck.getCardDeck().isEmpty()){
-                            screen[r][c] = deck.getRandomCard();
+                            if (button == 1){
+                                screen[r][c] = deck.getRandomCard();
+                            }
+                            else if (button == 3){
+                                rclick = !rclick;
+                            }
                         }
                     }
                 }
