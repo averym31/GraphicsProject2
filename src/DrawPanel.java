@@ -11,9 +11,11 @@ class DrawPanel extends JPanel implements MouseListener {
     Card[][] screen = new Card[3][3];
     private boolean rclick;
     private int numReset;
+    Rectangle playAgainHitbox;
 
     public DrawPanel() {
         deck = new Deck();
+        playAgainHitbox = new Rectangle(100, 300, 150, 50);
         for (int r = 0; r < screen.length; r++){
             for (int c = 0; c < screen[0].length; c++){
                 currentCard = deck.getRandomCard();
@@ -56,7 +58,6 @@ class DrawPanel extends JPanel implements MouseListener {
         Point p = e.getPoint();
         int button = e.getButton();
         // 1 = lclick, 3 = rclick
-        Rectangle playAgainHitbox = new Rectangle(100, 300, 150, 50);
         if (playAgainHitbox.contains(p) && button == 1){
             numReset++;
             deck = new Deck();
