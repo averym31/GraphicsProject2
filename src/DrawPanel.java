@@ -9,11 +9,12 @@ class DrawPanel extends JPanel implements MouseListener {
     private Deck deck;
     private Card currentCard;
     Card[][] screen = new Card[3][3];
-    private boolean rclick;
     private int numReset;
     Rectangle playAgainHitbox;
+    private ArrayList<Card> highlighted;
 
     public DrawPanel() {
+        highlighted = new ArrayList<Card>();
         deck = new Deck();
         playAgainHitbox = new Rectangle(100, 300, 150, 50);
         for (int r = 0; r < screen.length; r++){
@@ -36,14 +37,17 @@ class DrawPanel extends JPanel implements MouseListener {
                 g.drawImage(screen[r][c].getImage(), x, y, null);
                 Rectangle cardHitBox = new Rectangle(x, y, screen[r][c].getImage().getWidth(), screen[r][c].getImage().getHeight());
                 screen[r][c].setHitbox(cardHitBox);
-                if (rclick) {
-                    g.drawRect(x, y, (int)cardHitBox.getWidth(), (int)cardHitBox.getHeight());
-                }
                 x += 100;
             }
             y += 100;
             x = 50;
         }
+        if (highlighted != null){
+            for (Card card : highlighted) {
+                g.drawRect((int) card.getHitbox().getX(), (int) card.getHitbox().getY(), (int) card.getHitbox().getWidth(), (int) card.getHitbox().getHeight());
+            }
+        }
+
         g.drawString("Number of times game has been reset: " + numReset, x, y + 80);
         g.drawString("Number of cards left: " + deck.getCardDeck().size(), x, y + 100);
 
@@ -52,6 +56,7 @@ class DrawPanel extends JPanel implements MouseListener {
 
         g.drawRect(100, 300, 150, 50);
         g.drawString("PLAY AGAIN!", 135,  330);
+
     }
 
     public void mousePressed(MouseEvent e) {
@@ -77,7 +82,12 @@ class DrawPanel extends JPanel implements MouseListener {
                     }
                 }
                 if (button == 3 && screen[r][c].getHitbox().contains(p)) {
-                    rclick = !rclick;
+                    if (!highlighted.contains(screen[r][c])){
+                        highlighted.add(screen[r][c]);
+                    }
+                    else {
+                        highlighted.remove(screen[r][c]);
+                    }
                 }
             }
         }
