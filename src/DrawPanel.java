@@ -12,10 +12,8 @@ class DrawPanel extends JPanel implements MouseListener {
     private int numReset;
     Rectangle playAgainHitbox;
     Rectangle replaceCardsHitbox;
-    private ArrayList<Card> highlighted;
 
     public DrawPanel() {
-        highlighted = new ArrayList<Card>();
         deck = new Deck();
         playAgainHitbox = new Rectangle(100, 300, 150, 50);
         replaceCardsHitbox = new Rectangle(320, 10, 150, 50);
@@ -39,16 +37,16 @@ class DrawPanel extends JPanel implements MouseListener {
                 g.drawImage(screen[r][c].getImage(), x, y, null);
                 Rectangle cardHitBox = new Rectangle(x, y, screen[r][c].getImage().getWidth(), screen[r][c].getImage().getHeight());
                 screen[r][c].setHitbox(cardHitBox);
+                if (screen[r][c].isHighlighted()){
+                    g.drawRect((int) screen[r][c].getHitbox().getX(), (int) screen[r][c].getHitbox().getY(), (int) screen[r][c].getHitbox().getWidth(), (int) screen[r][c].getHitbox().getHeight());
+                }
                 x += 100;
             }
             y += 100;
             x = 50;
         }
-        if (highlighted != null){
-            for (Card card : highlighted) {
-                g.drawRect((int) card.getHitbox().getX(), (int) card.getHitbox().getY(), (int) card.getHitbox().getWidth(), (int) card.getHitbox().getHeight());
-            }
-        }
+
+
 
         g.drawString("Number of times game has been reset: " + numReset, x, y + 80);
         g.drawString("Number of cards left: " + deck.getCardDeck().size(), x, y + 100);
@@ -64,6 +62,8 @@ class DrawPanel extends JPanel implements MouseListener {
     public void mousePressed(MouseEvent e) {
         Point p = e.getPoint();
         int button = e.getButton();
+        int sumH = 0;
+        String JackQueenKing = "";
         // 1 = lclick, 3 = rclick
 
         // when u click on the play again button
@@ -81,28 +81,50 @@ class DrawPanel extends JPanel implements MouseListener {
         // when u click on card
         for (int r = 0; r < screen.length; r++) {
             for (int c = 0; c < screen[0].length; c++) {
-//                if (!deck.getCardDeck().isEmpty() && button == 1) {
-//                    if (screen[r][c].getHitbox().contains(p)) {
-//                        screen[r][c] = deck.getRandomCard();
-//                    }
-//                }
                 if (button == 3 && screen[r][c].getHitbox().contains(p)) {
-                    if (!highlighted.contains(screen[r][c])){
-                        highlighted.add(screen[r][c]);
-                    }
-                    else {
-                        highlighted.remove(screen[r][c]);
-                    }
+                    screen[r][c].setHighlighted();
                 }
             }
         }
 
         // when u click on the replace cards button
         if (replaceCardsHitbox.contains(p) && button == 1){
-            if (highlighted != null){
-                for (int i = 0; i < highlighted.size(); i++){
-                    highlighted.remove(i);
-                    i--;
+            for (int r = 0; r < screen.length; r++) {
+                for (int c = 0; c < screen[0].length; c++) {
+                    if (Card.numHighlighted == 2){
+                        if (screen[r][c].isHighlighted()){
+                            if (screen[r][c].getValue() == "A"){
+                                sumH += 1;
+                            }
+                            else {
+                                sumH += Integer.parseInt(screen[r][c].getValue());
+                            }
+                        }
+                    }
+                    else if (Card.numHighlighted == 3){
+                        if (screen[r][c].getValue() == "J"){
+                            JackQueenKing += "J";
+                        }
+                        if (screen[r][c].getValue() == "Q"){
+                            JackQueenKing += "Q";
+                        }
+                        if (screen[r][c].getValue() == "K"){
+                            JackQueenKing += "K";
+                        }
+                        if (JackQueenKing.contains("J") && JackQueenKing.contains("Q") && JackQueenKing.contains("K")){
+                            sumH = 11;
+                        }
+                    }
+                }
+            }
+            if (sumH == 11){
+                for (int r = 0; r < screen.length; r++) {
+                    for (int c = 0; c < screen[0].length; c++) {
+                        if (screen[r][c].isHighlighted()){
+                            screen[r][c] = deck.getRandomCard();
+                            Card.numHighlighted--;
+                        }
+                    }
                 }
             }
         }

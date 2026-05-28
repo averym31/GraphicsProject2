@@ -10,6 +10,8 @@ public class Card {
     private String imageFileName;
     private BufferedImage image;
     private Rectangle hitbox;
+    private boolean highlighted;
+    public static int numHighlighted;
 
     public Card(String suit, String value) {
         this.suit = suit;
@@ -17,6 +19,7 @@ public class Card {
         this.imageFileName = "card_"+suit+"_"+value+".png";
         this.image = readImage();
         this.hitbox = new Rectangle(-10, -10, image.getWidth(), image.getHeight());
+        this.highlighted = false;
     }
 
     public Rectangle getHitbox() {
@@ -31,7 +34,6 @@ public class Card {
         return suit;
     }
 
-
     public String getValue() {
         return value;
     }
@@ -42,6 +44,21 @@ public class Card {
 
     public String toString() {
         return suit + " " + value;
+    }
+
+    public void setHighlighted () {
+        if (!highlighted){
+            highlighted = true;
+            numHighlighted++;
+        }
+        else {
+            highlighted = false;
+            numHighlighted--;
+        }
+    }
+
+    public boolean isHighlighted(){
+        return highlighted;
     }
 
     public BufferedImage getImage() {
