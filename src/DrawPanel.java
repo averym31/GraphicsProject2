@@ -10,6 +10,7 @@ class DrawPanel extends JPanel implements MouseListener {
     private Card currentCard;
     Card[][] screen = new Card[3][3];
     private int numReset;
+    private boolean isValid;
     Rectangle playAgainHitbox;
     Rectangle replaceCardsHitbox;
 
@@ -17,6 +18,7 @@ class DrawPanel extends JPanel implements MouseListener {
         deck = new Deck();
         playAgainHitbox = new Rectangle(100, 300, 150, 50);
         replaceCardsHitbox = new Rectangle(320, 10, 150, 50);
+        isValid = false;
         for (int r = 0; r < screen.length; r++){
             for (int c = 0; c < screen[0].length; c++){
                 currentCard = deck.getRandomCard();
@@ -46,10 +48,17 @@ class DrawPanel extends JPanel implements MouseListener {
             x = 50;
         }
 
-
+        //if (!isValid){
+        //    g.drawString("There are no more available moves, Click the play again button to start a new game.", x, y + 120);
+        //    numLosses++;
+        //}
 
         g.drawString("Number of times game has been reset: " + numReset, x, y + 80);
         g.drawString("Number of cards left: " + deck.getCardDeck().size(), x, y + 100);
+
+        if (deck.getCardDeck().isEmpty()){
+            g.drawString("Congrats, you win!, Click the play again button to start a new game.", x, y + 120);
+        }
 
         g.drawRect(320, 10, 150, 50);
         g.drawString("REPLACE CARDS", 345, 40);
@@ -69,6 +78,11 @@ class DrawPanel extends JPanel implements MouseListener {
         // when u click on the play again button
         if (playAgainHitbox.contains(p) && button == 1){
             numReset++;
+            for (Card[] cards : screen) {
+                for (int c = 0; c < screen[0].length; c++) {
+                    cards[c].resetHighlight();
+                }
+            }
             deck = new Deck();
             for (int r = 0; r < screen.length; r++){
                 for (int c = 0; c < screen[0].length; c++){
@@ -102,6 +116,8 @@ class DrawPanel extends JPanel implements MouseListener {
                         }
                     }
                     else if (Card.numHighlighted == 3){
+                        sumH = 0;
+                        JackQueenKing = "";
                         if (screen[r][c].getValue() == "J"){
                             JackQueenKing += "J";
                         }

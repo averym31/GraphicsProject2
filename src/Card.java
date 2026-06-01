@@ -46,12 +46,19 @@ public class Card {
         return suit + " " + value;
     }
 
-    public void setHighlighted () {
+    public void setHighlighted(){
         if (!highlighted){
             highlighted = true;
             numHighlighted++;
         }
         else {
+            highlighted = false;
+            numHighlighted--;
+        }
+    }
+
+    public void resetHighlight(){
+        if (highlighted){
             highlighted = false;
             numHighlighted--;
         }
