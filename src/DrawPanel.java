@@ -59,6 +59,9 @@ class DrawPanel extends JPanel implements MouseListener {
         if (deck.getCardDeck().isEmpty()){
             g.drawString("Congrats, you win!, Click the play again button to start a new game.", x, y + 120);
         }
+        if (!deck.validMoveSet(screen)){
+            g.drawString("You lose!, Click the play again button to start a new game.", x, y + 120);
+        }
 
         g.drawRect(320, 10, 150, 50);
         g.drawString("REPLACE CARDS", 345, 40);
