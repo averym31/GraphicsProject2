@@ -10,7 +10,6 @@ class DrawPanel extends JPanel implements MouseListener {
     private Card currentCard;
     Card[][] screen = new Card[3][3];
     private int numReset;
-    private boolean isValid;
     Rectangle playAgainHitbox;
     Rectangle replaceCardsHitbox;
 
@@ -18,7 +17,6 @@ class DrawPanel extends JPanel implements MouseListener {
         deck = new Deck();
         playAgainHitbox = new Rectangle(100, 300, 150, 50);
         replaceCardsHitbox = new Rectangle(320, 10, 150, 50);
-        isValid = false;
         for (int r = 0; r < screen.length; r++){
             for (int c = 0; c < screen[0].length; c++){
                 currentCard = deck.getRandomCard();
