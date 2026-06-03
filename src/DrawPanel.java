@@ -119,8 +119,6 @@ class DrawPanel extends JPanel implements MouseListener {
                         }
                     }
                     else if (Card.numHighlighted == 3){
-                        sumH = 0;
-                        JackQueenKing = "";
                         if (screen[r][c].getValue() == "J"){
                             JackQueenKing += "J";
                         }
