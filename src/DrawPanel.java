@@ -48,11 +48,6 @@ class DrawPanel extends JPanel implements MouseListener {
             x = 50;
         }
 
-        //if (!isValid){
-        //    g.drawString("There are no more available moves, Click the play again button to start a new game.", x, y + 120);
-        //    numLosses++;
-        //}
-
         g.drawString("Number of times game has been reset: " + numReset, x, y + 80);
         g.drawString("Number of cards left: " + deck.getCardDeck().size(), x, y + 100);
 
